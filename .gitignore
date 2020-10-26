@@ -1,0 +1,7 @@
+.vscode
+logs
+Bilibili_venv
+gunicorn.conf
+requirements.txt
+*.pyc
+uwsgi.ini

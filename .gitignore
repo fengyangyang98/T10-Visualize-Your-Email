@@ -5,3 +5,6 @@ gunicorn.conf
 requirements.txt
 *.pyc
 uwsgi.ini
+__pycache__
+test
+ref

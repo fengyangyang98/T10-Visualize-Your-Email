@@ -6,5 +6,5 @@ requirements.txt
 *.pyc
 uwsgi.ini
 __pycache__
-test
+*test.py
 ref

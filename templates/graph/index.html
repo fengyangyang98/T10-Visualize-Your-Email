@@ -14,7 +14,7 @@
                 var chart = echarts.init(document.getElementById('bar'), 'white', {renderer: 'canvas'});
                 $.ajax({
                     type: "GET",
-                    url: "http://v.api.ifffff.cn/barChart",
+                    url: "http://v.api.ifffff.cn/calendar",
                     dataType: 'json',
                     success: function (result) {
                         chart.setOption(result);

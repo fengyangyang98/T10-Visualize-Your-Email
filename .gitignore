@@ -8,3 +8,4 @@ uwsgi.ini
 __pycache__
 *test.py
 ref
+*visual_venv

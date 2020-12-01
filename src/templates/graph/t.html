@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Visualize Your Email</title>
+    <script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
+    <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts-wordcloud.min.js"></script>
+</head>
+<body>
+    <input type="text" size="30" id="host" value="0" />
+    <input type="text" size="30" id="username" value="0" />
+    <input type="password" size="30" id="password" value="0" />
+    <input type="text" size="30" id="year" value="0" />
+    <input type="button" value="显示" onclick="Show()" />
+    
+    <div id="calendar" style="width:1000px; height:300px;"></div>
+    <div id="sunburst" style="width:1000px; height:600px;"></div>
+    <div id="radar" style="width:1000px; height:600px;"></div>
+    <div id="scatter" style="width:1000px; height:600px;"></div>
+    <div id="wordcloud" style="width:1000px; height:600px;"></div>
+
+    
+
+    <script>
+            function Show() {
+                var calendar = echarts.init(document.getElementById('calendar'), 'white', {renderer: 'canvas'});
+                var sunburst = echarts.init(document.getElementById('sunburst'), 'white', {renderer: 'canvas'});
+                var radar = echarts.init(document.getElementById('radar'), 'white', {renderer: 'canvas'});
+                var scatter = echarts.init(document.getElementById('scatter'), 'white', {renderer: 'canvas'});
+                var wordcloud = echarts.init(document.getElementById('wordcloud'), 'white', {renderer: 'canvas'});
+                $.ajax({
+                    type: "GET",
+                    url: "http://v.api.ifffff.cn/charts",
+                    dataType: 'json',
+                    data:{
+                        host: document.getElementById('host').value,
+                        username: document.getElementById('username').value,
+                        password: document.getElementById('password').value,
+                        year: document.getElementById('year').value,
+                        },
+                    success: function (result) {
+                        calendar.setOption(result.calendar);    
+                        sunburst.setOption(result.sunburst);    
+                        radar.setOption(result.radar);    
+                        scatter.setOption(result.scatter);   
+                        wordcloud.setOption(result.wordcloud);    
+                    }
+                });
+            }
+    </script>
+</body>
+</html>

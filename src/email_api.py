@@ -2,6 +2,9 @@
 
 import imaplib
 import email
+import chardet
+
+import utils
 
 class Email:
     def __init__(self, host, username, password, port=993):
@@ -24,7 +27,10 @@ class Email:
         subject = message.get('subject')  
         dh = email.header.decode_header(subject)
         if(type(dh[0][0]) == bytes):
-            subject = dh[0][0].decode(dh[0][1])
+            if dh[0][1] == None:
+                subject = dh[0][0].decode()
+            else:
+                subject = dh[0][0].decode(dh[0][1])
 
         # from
         sender = email.utils.parseaddr(message.get('from'))[1]
@@ -33,7 +39,7 @@ class Email:
         # copy
         copy = email.utils.parseaddr(message.get_all('cc'))[1]
         # time
-        recvDate = email.utils.parseaddr(message.get_all('date'))[1]
+        recvDate = utils.getDatetime(email.utils.parseaddr(message.get_all('date'))[1])
 
         return subject, sender, receiver, copy, recvDate
 
@@ -72,7 +78,7 @@ class Email:
         except(Exception):
             return None
 
-    def getEmailsIn(self, mailbox_name):
+    def getEmailsIn(self, mailbox_name, year = 0):
         """get the emails data in the mailbox
 
         Args:
@@ -92,12 +98,43 @@ class Email:
             return status, ret
         
         email_count = len(self.mail.search(None, 'ALL')[1][0].split())
+        if email_count == 0:
+            return -1, ret
+
+        # get the year
+        if year == 0:
+            start, end = utils.getTimeThisYear()
+            year = start.year
         
+        # recv the data
         for handler in range(email_count, 1, -1):
             res, data = self.mail.fetch(str(handler), 'BODY[HEADER]')
-            msg = email.message_from_string(data[0][1].decode("utf-8")) 
-            ret.append(self._parseHeader(msg))
+            if(res == 'NO'):
+                return -1, ret
 
+            msg = email.message_from_string(data[0][1].decode("utf-8")) 
+            tmp = self._parseHeader(msg)
+            
+            # the year's email
+            if year == tmp[-1].year:
+                ret.append(tmp)
+
+        return status, ret
+
+    def getMailboxs(self):
+        ret = []
+        status = 0
+        tmp = []
+        try:
+            typ, tmp = self.mail.list()
+        except(Exception):
+            status = -1
+            return status
+        
+        
+        for i in tmp:
+            ret.append(i.decode('utf-8').split(' "/" ')[1])
+            
         return status, ret
     
 

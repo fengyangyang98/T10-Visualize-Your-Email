@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Visualize Your Email</title>
+    <script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
+    <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts-wordcloud.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/loadstyle.css') }}">
+
+</head>
+<body>
+
+    <center id="loading" class="loading">
+        <div class="spinner spinnerTwo"><span></span></div>
+        <p> 正在获取您的邮件中，这可能会花费一分钟以上，这取决于您邮箱中邮件的数量以及服务器的带宽。</p>
+    </center>
+    
+    <center id="info" class="info">
+        <p>这是你的账号 {{username}} 在 {{year}} 中的数据可视化</p>
+    </center>
+
+    <center>
+        <div id="calendar" style="width:1000px; height:300px;"></div>
+        <div id="sunburst" style="width:1000px; height:600px;"></div>
+        <div id="radar" style="width:1000px; height:600px;"></div>
+        <div id="scatter" style="width:1000px; height:600px;"></div>
+        <div id="wordcloud" style="width:1000px; height:600px;"></div>
+    </center>
+
+    <script>
+        $(
+            function () {
+                var info=document.getElementById("info");
+                info.setAttribute("hidden", true);
+
+                var calendar = echarts.init(document.getElementById('calendar'), 'white', {renderer: 'canvas'});
+                var sunburst = echarts.init(document.getElementById('sunburst'), 'white', {renderer: 'canvas'});
+                var radar = echarts.init(document.getElementById('radar'), 'white', {renderer: 'canvas'});
+                var scatter = echarts.init(document.getElementById('scatter'), 'white', {renderer: 'canvas'});
+                var wordcloud = echarts.init(document.getElementById('wordcloud'), 'white', {renderer: 'canvas'});
+                $.ajax({
+                    type: "GET",
+                    url: "http://v.api.ifffff.cn/charts",
+                    dataType: 'json',
+                    data:{
+                        host: "{{host}}" ,
+                        username: "{{username}}",
+                        password: "{{password}}",
+                        year: "{{year}}",
+                        },
+                    success: function (result) {
+                        var loading=document.getElementById("loading");
+                        var info=document.getElementById("info");
+                        
+                        loading.setAttribute("hidden", true);
+                        info.removeAttribute("hidden");
+
+                        calendar.setOption(result.calendar);    
+                        sunburst.setOption(result.sunburst);    
+                        radar.setOption(result.radar);    
+                        scatter.setOption(result.scatter);   
+                        wordcloud.setOption(result.wordcloud);    
+                    },
+                    error:function(xhr,state,errorThrown){
+				        alert("您填写的信息有误，请返回重试。");
+			        }
+                
+                 })
+            }
+        )
+    </script>
+</body>
+</html>

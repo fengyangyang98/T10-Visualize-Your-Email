@@ -5,6 +5,7 @@ import email
 import chardet
 
 import utils
+import chardet
 
 class Email:
     def __init__(self, host, username, password, port=993):
@@ -112,7 +113,8 @@ class Email:
             if(res == 'NO'):
                 return -1, ret
 
-            msg = email.message_from_string(data[0][1].decode("utf-8")) 
+            typ = chardet.detect(data[0][1])
+            msg = email.message_from_string(data[0][1].decode(typ['encoding'])) 
             tmp = self._parseHeader(msg)
             
             # the year's email

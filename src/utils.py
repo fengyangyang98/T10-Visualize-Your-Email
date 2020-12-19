@@ -2,6 +2,7 @@
 
 import datetime
 import random
+import re
 
 def randomColor():
     colors1 = '0123456789ABCDEF'
@@ -47,12 +48,8 @@ def getDatetime(timestamp):
     Returns:
         timestamp 
     """
-    utclist = timestamp.split(' ')
-    utcstr = ''
-    for i in range(0, 5):
-        utcstr = utcstr + utclist[i] + ' '
-
-    utcdatetime = datetime.datetime.strptime(utcstr, '%a, %d %b %Y %H:%M:%S ')
+    utcstr = re.search(r"(\d{1,2} [A-Z][a-z]* \d{4} \d{2}:\d{2}:\d{2})",timestamp).group(0)
+    utcdatetime = datetime.datetime.strptime(utcstr, '%d %b %Y %H:%M:%S')
     return utcdatetime
 
 def getSuffix(email):

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 import random
 import datetime
 from pyecharts import options as opts
@@ -6,20 +6,40 @@ from pyecharts.charts import Bar, Page, Calendar, Sunburst, Radar, Scatter, Time
 from pyecharts.faker import Faker
 import json
 import jieba
+from datetime import timedelta
 
 from chart import *
 from email_api import Email
 
 STOPWORDS = [u'的', u'地', u'得', u'而', u'了', u'在', u'是', u'我', u'有', u'和', u'就',  u'不', u'人', u'都', u'一', u'一个', u'上', u'也', u'很', u'到', u'说', u'要', u'去', u'你',  u'会', u'着', u'没有', u'看', u'好', u'自己', u'这']
-PUNCTUATIONS = [u'。', u'，', u'“', u'”', u'…', u'？', u'！', u'、', u'；', u'（', u'）']   
+PUNCTUATIONS = [u'。', u'，', u'“', u'”', u'…', u'？', u'！', u'、', u'；', u'（', u'）', u'【', u'】', u'(', u')', u',', u'.', u'_', u'-', u'^', u'?', u'[', u']', u'{', u'}', u'「', u'」']   
 
 app = Flask(__name__, static_folder="templates")
 
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = timedelta(seconds=1)
+
+@app.route("/test")
+def test():
+    return render_template("graph/lo_gin.html")
+
 @app.route("/")
 def index():
-    return render_template("graph/index.html")
+    return render_template("graph/login.html")
 
-@app.route("/charts")
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    try:
+        username = request.form['username']
+        password = request.form['password']
+        host = request.form['host']
+        year = request.form['year']
+    except:
+        return redirect('/')
+
+    return render_template("graph/charts.html", username=username, password=password, host=host, year=year)
+
+
+@app.route("/charts", methods=['GET', 'POST'])
 def get_charts():
     try:
         username = request.args['username']

@@ -64,6 +64,17 @@ def get_charts():
     # logout
     e.logout()
 
+    # pre info
+    most_email_time = '晚上'
+    morning_email_num = 0
+    noon_email_num = 0
+    afternoon_email_num = 0
+    night_email_num = 0
+
+    most_email_month = 1
+    max_month_email_num = 0
+    month_email_num = [0 for i in range(13)]
+
     # get calendar chart
     calendar_data = [
         [str(begin + datetime.timedelta(days=i)), 0]
@@ -100,12 +111,16 @@ def get_charts():
             recv_hour = email[-1].hour
             if recv_hour >= 8 and recv_hour <= 12:
                 period = 'Morning'
+                morning_email_num += 1
             elif recv_hour >= 13 and recv_hour <= 14:
                 period = 'Noon'
+                noon_email_num += 1
             elif recv_hour >= 15 and recv_hour <= 18:
                 period = 'Afternoon'
+                afternoon_email_num += 1
             else:
                 period = 'Night'
+                night_email_num += 1
             email_pre, email_suffix = utils.getSuffix(email[1])
 
             if mailbox not in sunburst_tmp_data[period]:
@@ -139,6 +154,7 @@ def get_charts():
 
             timeline_max = max(timeline_max, timeline_data[email[-1].month][0][idx])
             timeline_max = max(timeline_max, timeline_data[email[-1].month][1][idx])
+            month_email_num[email[-1].month] += 1
 
             # wordcloud
             seg_list = jieba.cut(email[0])
@@ -179,6 +195,23 @@ def get_charts():
                 mailbox_list.append(opts.SunburstItem(name='...' + mailbox[-12:-1], children=suffix_list))
 
         sunburst_data.append(opts.SunburstItem(name=period, children=mailbox_list))
+
+    max_time_email_num = max(max(morning_email_num, noon_email_num), max(afternoon_email_num, night_email_num))
+    if max_time_email_num == morning_email_num:
+        most_email_time = '早上'
+    elif max_time_email_num == noon_email_num:
+        most_email_time = '中午'
+    elif max_time_email_num == afternoon_email_num:
+            most_email_time = '下午'
+    elif max_time_email_num == night_email_num:
+            most_email_time = '晚上'
+
+    max_month_email_num = 0
+    for i in range(1, 13):
+        if month_email_num[i] > max_month_email_num:
+            max_month_email_num = month_email_num[i]
+            most_email_month = i
+
     
     #wordcloud
     wordcloud_data = []
@@ -198,13 +231,19 @@ def get_charts():
             mail_server_max_number + 3)
     scatter_chart = scatter_base(timeline_data, mailboxs, timeline_max)
     wordcloud_chart = wordcloud_base(wordcloud_data)
+
+    period = '"这一年，不同的时段，不同的邮箱，不同的来源。似乎你在 %s 更忙碌"' % (most_email_time)
+    month = '"每个月都有不同的事情，好像 %d 月是这一年最忙碌的一月"' % (most_email_month)
             
-    return '{ "calendar" : %s, "sunburst" : %s, "radar" : %s, "scatter" : %s, "wordcloud" : %s }' % (
+    return '{"calendar" : %s, "sunburst" : %s, "radar" : %s, "scatter" : %s, "wordcloud" : %s, "month" : %s , "period" : %s}' % (
                     calendar_chart.dump_options_with_quotes(),   
                     sunbudrt_chart.dump_options_with_quotes(), 
                     radar_chart.dump_options_with_quotes(),
                     scatter_chart.dump_options_with_quotes(),
-                    wordcloud_chart.dump_options_with_quotes())
+                    wordcloud_chart.dump_options_with_quotes(),
+                    month,
+                    period
+                    )
 
 if __name__ == "__main__":
     app.run()

@@ -7,7 +7,7 @@
     <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
     <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts-wordcloud.min.js"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/loadstyle.css') }}">
-
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/chartstyle.css') }}">
 </head>
 <body>
 
@@ -17,14 +17,33 @@
     </center>
     
     <center id="info" class="info">
-        <p>这是你的账号 {{username}} 在 {{year}} 中的数据可视化</p>
+        <h3>
+            {{username}}
+            <br>
+            邮件可视化你的 {{year}} 
+        </h3>
     </center>
 
-    <center>
+    <center id="content" class=="content">
+        <center id="info" class="info">
+            <p>{{year}} 年，每一天的邮件往来，都有记录。</p>
+        </center>
         <div id="calendar" style="width:1000px; height:300px;"></div>
+        <center id="info" class="info">
+            <p id="time_info">这一年，不同的时段，不同的邮箱，不同的来源。</p>
+        </center>
         <div id="sunburst" style="width:1000px; height:600px;"></div>
+        <center id="info" class="info">
+            <p>通过这个雷达图，看看你的邮件总体的信息吧。</p>
+        </center>
         <div id="radar" style="width:1000px; height:600px;"></div>
+        <center id="info" class="info">
+            <p id="month_info">每个月都有不同的事情。</p>
+        </center>
         <div id="scatter" style="width:1000px; height:600px;"></div>
+        <center id="info" class="info">
+            <p>这些词可能能够代表你的 {{year}} 年</p>
+        </center>
         <div id="wordcloud" style="width:1000px; height:600px;"></div>
     </center>
 
@@ -33,6 +52,7 @@
             function () {
                 var info=document.getElementById("info");
                 info.setAttribute("hidden", true);
+                content.setAttribute("hidden", true);
 
                 var calendar = echarts.init(document.getElementById('calendar'), 'white', {renderer: 'canvas'});
                 var sunburst = echarts.init(document.getElementById('sunburst'), 'white', {renderer: 'canvas'});
@@ -55,12 +75,16 @@
                         
                         loading.setAttribute("hidden", true);
                         info.removeAttribute("hidden");
+                        content.removeAttribute("hidden");
 
                         calendar.setOption(result.calendar);    
                         sunburst.setOption(result.sunburst);    
                         radar.setOption(result.radar);    
                         scatter.setOption(result.scatter);   
-                        wordcloud.setOption(result.wordcloud);    
+                        wordcloud.setOption(result.wordcloud);   
+
+                        document.getElementById("month_info").innerHTML = result.month;
+                        document.getElementById("time_info").innerHTML = result.period;
                     },
                     error:function(xhr,state,errorThrown){
 				        alert("您填写的信息有误，请返回重试。");

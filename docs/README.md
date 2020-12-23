@@ -95,6 +95,10 @@ Visualize Your Email 的操作十分简单，但是由于各个邮件服务提�
 * 在腾讯企业邮箱中，点击 **设置>客户端设置>收取选项**，然后在选择需要收取的时间段。
 * 在 QQ 邮箱中，点击 **设置>账户>POP3/IMAP/SMTP/Exchange/CardDAV/CalDAV服务**，然后在选择需要收取的时间段。
 
+> 如何在自己的服务器上部署？
+
+TODO
+
 ## 隐私协议
 
 Visualize Your Email Demo 网站对您做出以下保证：

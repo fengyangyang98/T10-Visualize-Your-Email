@@ -1,6 +1,4 @@
-# 📧 Visualize Your Email User Guide
-
-## 简介
+# 📧 Visualize Your Email
 
 Visualize Your Email 利用邮箱协议来获取您邮箱中的邮件，根据一些元数据进行分析并且可视化。您可以通过此网站来查看您邮箱任意一年的可视化数据。
 

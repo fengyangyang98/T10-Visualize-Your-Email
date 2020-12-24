@@ -198,7 +198,7 @@ def get_charts():
 
     max_time_email_num = max(max(morning_email_num, noon_email_num), max(afternoon_email_num, night_email_num))
     if max_time_email_num == morning_email_num:
-        most_email_time = '早上'
+        most_email_time = '上午'
     elif max_time_email_num == noon_email_num:
         most_email_time = '中午'
     elif max_time_email_num == afternoon_email_num:

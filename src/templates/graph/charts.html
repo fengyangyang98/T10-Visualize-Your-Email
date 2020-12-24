@@ -26,19 +26,19 @@
 
     <center id="content" class=="content">
         <center id="info" class="info">
-            <p>{{year}} 年，每一天的邮件往来，都有记录。</p>
+            <p>{{year}} 年，每一天的邮件往来，都有记录</p>
         </center>
         <div id="calendar" style="width:1000px; height:300px;"></div>
         <center id="info" class="info">
-            <p id="time_info">这一年，不同的时段，不同的邮箱，不同的来源。</p>
+            <p id="time_info">这一年，不同的时段，不同的邮箱，不同的来源</p>
         </center>
         <div id="sunburst" style="width:1000px; height:600px;"></div>
         <center id="info" class="info">
-            <p>通过这个雷达图，看看你的邮件总体的信息吧。</p>
+            <p>通过这个雷达图，看看你的邮件总体的信息吧</p>
         </center>
         <div id="radar" style="width:1000px; height:600px;"></div>
         <center id="info" class="info">
-            <p id="month_info">每个月都有不同的事情。</p>
+            <p id="month_info">每个月都有不同的事情</p>
         </center>
         <div id="scatter" style="width:1000px; height:600px;"></div>
         <center id="info" class="info">
@@ -52,6 +52,7 @@
             function () {
                 var info=document.getElementById("info");
                 info.setAttribute("hidden", true);
+                var content=document.getElementById("content");
                 content.setAttribute("hidden", true);
 
                 var calendar = echarts.init(document.getElementById('calendar'), 'white', {renderer: 'canvas'});
@@ -88,6 +89,7 @@
                     },
                     error:function(xhr,state,errorThrown){
 				        alert("您填写的信息有误，请返回重试。");
+                        location.href="";
 			        }
                 
                  })

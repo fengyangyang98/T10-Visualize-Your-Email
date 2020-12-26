@@ -1,8 +1,8 @@
 # 📧 Visualize Your Email User Guide
 
-## 简介
-
 Visualize Your Email 利用邮箱协议来获取您邮箱中的邮件，根据一些元数据进行分析并且可视化。您可以通过此网站来查看您邮箱任意一年的可视化数据。
+
+[[Demo](http://v.api.ifffff.cn/)] [[User Guide](https://cynricfeng.github.io/Visualize-Your-Email/)]
 
 ## 基本操作
 
@@ -94,6 +94,8 @@ Visualize Your Email 的操作十分简单，但是由于各个邮件服务提�
 
 * 在腾讯企业邮箱中，点击 **设置>客户端设置>收取选项**，然后在选择需要收取的时间段。
 * 在 QQ 邮箱中，点击 **设置>账户>POP3/IMAP/SMTP/Exchange/CardDAV/CalDAV服务**，然后在选择需要收取的时间段。
+
+除此之外，有些邮箱的部分字段存在问题，所以有可能部分数据不太准确。
 
 > 如何在自己的服务器上部署？
 

@@ -17,7 +17,7 @@ Visualize Your Email 利用邮箱协议来获取您邮箱中的邮件，根据�
 
 ### 旭日图
 
-![](./assert/sunrise.png)
+![](./docs/assert/sunrise.png)
 
 旭日图记录了您在不同的时段、在不同的邮箱中、不同来源邮件的具体数量和相关比例信息，可用的操作如下：
 

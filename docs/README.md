@@ -2,7 +2,7 @@
 
 Visualize Your Email 利用邮箱协议来获取您邮箱中的邮件，根据一些元数据进行分析并且可视化。您可以通过此网站来查看您邮箱任意一年的可视化数据。
 
-[[Demo](http://v.api.ifffff.cn/)] [[User Guide](https://cynricfeng.github.io/Visualize-Your-Email/)]
+[[Website](http://v.api.ifffff.cn/)] [[User Guide](https://cynricfeng.github.io/Visualize-Your-Email/)] [[Video](https://www.bilibili.com/video/BV1Hr4y1T7Q2)]
 
 ## 基本操作
 

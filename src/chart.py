@@ -57,17 +57,21 @@ def radar_base(data, email_max_number, copy_max_number, copied_max_number, recei
             ),
             textstyle_opts=opts.TextStyleOpts(color="#000000"),
         )
-        .set_series_opts(label_opts=opts.LabelOpts(is_show=False))
-        .set_global_opts(
-            legend_opts=opts.LegendOpts()
-        )
     )
 
     for mailbox in data:
-        radar.add(
-            series_name=mailbox,
-            data=data[mailbox],
-            linestyle_opts=opts.LineStyleOpts(color=utils.randomColor()),
+        tot = 0
+        for num in data[mailbox][0]:
+            tot += num
+        if num is not 0:
+            radar.add(
+                series_name=mailbox,
+                data=data[mailbox],
+                linestyle_opts=opts.LineStyleOpts(color=utils.randomColor(), width=1),
+            )
+
+    radar.set_series_opts(label_opts=opts.LabelOpts(is_show=False)).set_global_opts(
+            legend_opts=opts.LegendOpts()
         )
         
     return radar

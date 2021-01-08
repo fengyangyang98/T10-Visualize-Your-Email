@@ -109,13 +109,18 @@ class Email:
         
         # recv the data
         for handler in range(email_count, 1, -1):
-            res, data = self.mail.fetch(str(handler), 'BODY[HEADER]')
-            if(res == 'NO'):
-                return -1, ret
 
-            typ = chardet.detect(data[0][1])
-            msg = email.message_from_string(data[0][1].decode(typ['encoding'])) 
-            tmp = self._parseHeader(msg)
+            try:
+                res, data = self.mail.fetch(str(handler), 'BODY[HEADER]')
+                if(res == 'NO'):
+                    return -1, ret
+
+                typ = chardet.detect(data[0][1])
+                msg = email.message_from_string(data[0][1].decode(typ['encoding'])) 
+                tmp = self._parseHeader(msg)
+                
+            except:
+                continue
             
             # the year's email
             if year == tmp[-1].year:

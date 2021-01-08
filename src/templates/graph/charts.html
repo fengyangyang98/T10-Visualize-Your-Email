@@ -88,7 +88,7 @@
                         document.getElementById("time_info").innerHTML = result.period;
                     },
                     error:function(xhr,state,errorThrown){
-				        alert("您填写的信息有误，请返回重试。");
+				        alert("您填写的信息有误，请返回重试。如果您账号密码正确，可能是邮箱设置可拉取的邮件数量过多，导致服务器无法处理，请尝试减少可拉取的天数。");
                         location.href="";
 			        }
                 
